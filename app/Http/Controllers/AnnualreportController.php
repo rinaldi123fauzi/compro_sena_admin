@@ -7,6 +7,7 @@ use App\Models\Annual_report_pertanyaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -208,6 +209,13 @@ class AnnualreportController extends Controller
             $pertanyaan->status = 'replied';
             $pertanyaan->save();
 
+            $annualreport = Annual_report::findOrFail($pertanyaan->id_annualreport);
+
+            $email = $this->sendemail($annualreport->file, $pertanyaan->email);
+            //dd($email);
+
+            //$this->uploadPathfile
+
             // You can add email sending logic here if needed
             // Mail::to($pertanyaan->email)->send(new AnnualReportMail($pertanyaan));
 
@@ -215,5 +223,76 @@ class AnnualreportController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal mengirim Annual Report');
         }
+    }
+
+    public function sendemail($file, $email)
+    {
+        $filepdf = $this->uploadPathfile . $file;
+        try {
+            // Cara 1: Mengirim email text sederhana
+            /* Mail::raw('Halo, bagaimana kabarmu kawan', function ($message) {
+                $message->to('nafir91@gmail.com')
+                    ->subject('Tanya Kabar');
+            }); */
+
+            /* // Cara 2: Mengirim email HTML
+            Mail::html('<h1>Judul</h1><p>Isi email dalam format HTML</p>', function ($message) {
+                $message->to('penerima@email.com')
+                    ->subject('Judul Email');
+            });
+
+            // Cara 3: Mengirim email dengan view blade
+            Mail::send('emails.template', ['data' => 'Data Anda'], function ($message) {
+                $message->to('penerima@email.com')
+                    ->subject('Judul Email');
+            });*/
+
+            // Cara 4: Mengirim dengan attachment $this->uploadPathfile
+            /* Mail::raw('Terima Kasih telah menghubungi PT Sena, kami lampirkan file annual report', function ($message) use ($email, $filepdf) {
+                $message->to($email)
+                    ->subject('Annual Report');
+                //->attach($filepdf);
+            }); */
+            // Tambahkan pesan yang menjelaskan ukuran file
+            $filesize = round(filesize($filepdf) / 1024 / 1024, 2); // Convert to MB
+            $message_text = "Terima Kasih telah menghubungi PT Sena, kami lampirkan file annual report\n";
+            $message_text .= "Ukuran file: {$filesize}MB";
+
+            // Jika file lebih dari 20MB, berikan link download sebagai alternatif
+            if ($filesize > 20) {
+                // Opsi 1: Kirim link download saja
+                $download_link = url('download-report/' . $file); // Buat route untuk download
+                Mail::raw(
+                    "Terima Kasih telah menghubungi PT Sena\n\nFile annual report bisa didownload melalui link berikut:\n{$download_link}",
+                    function ($message) use ($email) {
+                        $message->to($email)
+                            ->subject('Annual Report Download Link');
+                    }
+                );
+            } else {
+                // Opsi 2: Kirim file seperti biasa jika ukurannya masih dalam batas
+                Mail::raw($message_text, function ($message) use ($email, $filepdf) {
+                    $message->to($email)
+                        ->subject('Annual Report')
+                        ->attach($filepdf);
+                });
+            }
+
+            return "Email berhasil dikirim!";
+        } catch (\Exception $e) {
+            return "Gagal mengirim email: " . $e->getMessage();
+        }
+    }
+
+
+    function downloadreport($filename)
+    {
+        $filepath = $this->uploadPathfile . $filename;
+
+        if (file_exists($filepath)) {
+            return response()->download($filepath);
+        }
+
+        return abort(404);
     }
 }

@@ -18,6 +18,11 @@ Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index
 /* #Login */
 Route::get('login', [App\Http\Controllers\LoginController::class, 'index'])->name('index')->middleware('guest');
 
+
+Route::get('download-report/{filename}', [App\Http\Controllers\AnnualreportController::class, 'downloadreport']);
+
+
+
 Route::post('checklogin', [App\Http\Controllers\LoginController::class, 'checklogin']);
 Route::get('logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
@@ -294,6 +299,7 @@ Route::prefix('annualreport')->middleware('auth')->group(function () {
 
     //Send Report
     Route::get('/sendreport/{id}', [App\Http\Controllers\AnnualreportController::class, 'sendreport']);
+    Route::get('/sendemail', [App\Http\Controllers\AnnualreportController::class, 'sendemail']);
 });
 
 
