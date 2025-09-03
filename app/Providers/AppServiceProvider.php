@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        URL::forceScheme('https');
+        
         Blade::directive('currency', function ($expression) {
             return "Rp. <?php echo number_format($expression, 0, ',', '.'); ?>";
         });
@@ -48,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('*', function ($view) {
             //$view->with('globalurl', 'http://127.0.0.1:8000/upload/image/');
-            $view->with('globalurl', 'http://10.242.189.10:4343/upload/image/');
+            $view->with('globalurl', 'https://profile.pt-sena.co.id/upload/image/');
         });
 
         config([
