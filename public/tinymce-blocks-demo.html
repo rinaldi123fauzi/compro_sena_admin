@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>TinyMCE Block Formats Demo</title>
+        <script
+            src="https://cdn.tiny.cloud/1/la0ql2hq8yd8u8jx5l3mevofs09gvlzlo2yktz5w3dfrpzg6/tinymce/6/tinymce.min.js"
+            referrerpolicy="origin"
+        ></script>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+            .container {
+                max-width: 1000px;
+                margin: 0 auto;
+            }
+            .demo-section {
+                margin-bottom: 30px;
+                padding: 20px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+            h2 {
+                color: #333;
+                border-bottom: 2px solid #007cba;
+                padding-bottom: 10px;
+            }
+            .comparison {
+                display: flex;
+                gap: 20px;
+            }
+            .before,
+            .after {
+                flex: 1;
+            }
+            .alert {
+                padding: 10px;
+                margin: 10px 0;
+                border-radius: 4px;
+            }
+            .alert-warning {
+                background: #fff3cd;
+                color: #856404;
+                border: 1px solid #ffeaa7;
+            }
+            .alert-success {
+                background: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            }
+            .alert-info {
+                background: #d1ecf1;
+                color: #0c5460;
+                border: 1px solid #bee5eb;
+            }
+            .alert-danger {
+                background: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+            }
+            .lead {
+                font-size: 1.25rem;
+                font-weight: 300;
+            }
+            .text-muted {
+                color: #6c757d;
+            }
+            .text-center {
+                text-align: center;
+            }
+            .text-end {
+                text-align: right;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>TinyMCE Block Formats Demo</h1>
+            <p>
+                Demonstrasi perbedaan antara format standar dengan format yang
+                user-friendly
+            </p>
+
+            <div class="demo-section">
+                <h2>Standard Block Formats (Technical Names)</h2>
+                <textarea id="editor_standard">
+                <h1>h1 - Main Heading</h1>
+                <h2>h2 - Section Heading</h2>
+                <h3>h3 - Sub Heading</h3>
+                <p>p - Regular paragraph text</p>
+                <blockquote>blockquote - Quote block</blockquote>
+                <pre>pre - Preformatted text</pre>
+            </textarea
+                >
+            </div>
+
+            <div class="demo-section">
+                <h2>User-Friendly Block Formats (Descriptive Names)</h2>
+                <textarea id="editor_friendly">
+                <h1>Main Title - Easy to understand</h1>
+                <h2>Section Title - Clear purpose</h2>
+                <h3>Sub Title - Descriptive name</h3>
+                <p>Normal Text - What users expect</p>
+                <blockquote>Quote Block - Self explanatory</blockquote>
+                <pre>Preformatted Text - Shows what it does</pre>
+            </textarea
+                >
+            </div>
+
+            <div class="demo-section">
+                <h2>Advanced Styling Options</h2>
+                <textarea id="editor_advanced">
+                <p class="lead">This is a lead paragraph - larger text to catch attention</p>
+                <p class="text-muted">This is muted text - less emphasis</p>
+                <p class="text-center">This text is centered</p>
+                <p class="text-end">This text is right-aligned</p>
+                
+                <div class="alert alert-success">Success Alert Box - Good news!</div>
+                <div class="alert alert-warning">Warning Alert Box - Be careful!</div>
+                <div class="alert alert-info">Info Alert Box - Additional information</div>
+                <div class="alert alert-danger">Danger Alert Box - Important warning!</div>
+                
+                <p>Text with <mark>highlighted</mark> content</p>
+                <p>Text with <small>small text</small> inline</p>
+                <p>Text with <del>deleted content</del> and <ins>inserted content</ins></p>
+                <p>Mathematical formula: E = mc<sup>2</sup> and H<sub>2</sub>O</p>
+            </textarea
+                >
+            </div>
+        </div>
+
+        <script>
+            // Standard configuration with technical names
+            tinymce.init({
+                selector: "#editor_standard",
+                height: 300,
+                menubar: false,
+                plugins: [
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "help",
+                    "wordcount",
+                ],
+                toolbar:
+                    "undo redo | blocks | bold italic | alignleft aligncenter alignright | bullist numlist | removeformat | help",
+                content_style:
+                    "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+            });
+
+            // User-friendly configuration
+            tinymce.init({
+                selector: "#editor_friendly",
+                height: 300,
+                menubar: false,
+                plugins: [
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "help",
+                    "wordcount",
+                ],
+                toolbar:
+                    "undo redo | blocks | bold italic | alignleft aligncenter alignright | bullist numlist | removeformat | help",
+                block_formats:
+                    "Normal Text=p; Main Title=h1; Section Title=h2; Sub Title=h3; Small Heading=h4; Smallest Heading=h5; Preformatted Text=pre; Quote Block=blockquote; Code Block=code; Address=address",
+                content_style:
+                    "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+            });
+
+            // Advanced configuration with style formats
+            tinymce.init({
+                selector: "#editor_advanced",
+                height: 400,
+                menubar: false,
+                plugins: [
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "help",
+                    "wordcount",
+                ],
+                toolbar:
+                    "undo redo | blocks styleselect | bold italic | alignleft aligncenter alignright | bullist numlist | removeformat | code | help",
+                block_formats:
+                    "Normal Text=p; Main Title=h1; Section Title=h2; Sub Title=h3; Small Heading=h4; Smallest Heading=h5; Preformatted Text=pre; Quote Block=blockquote; Code Block=code; Address=address",
+                style_formats: [
+                    {
+                        title: "Text Styles",
+                        items: [
+                            { title: "Highlight", inline: "mark" },
+                            { title: "Small Text", inline: "small" },
+                            { title: "Deleted Text", inline: "del" },
+                            { title: "Inserted Text", inline: "ins" },
+                            { title: "Superscript", inline: "sup" },
+                            { title: "Subscript", inline: "sub" },
+                        ],
+                    },
+                    {
+                        title: "Alert Boxes",
+                        items: [
+                            {
+                                title: "Success Alert",
+                                block: "div",
+                                classes: "alert alert-success",
+                            },
+                            {
+                                title: "Warning Alert",
+                                block: "div",
+                                classes: "alert alert-warning",
+                            },
+                            {
+                                title: "Info Alert",
+                                block: "div",
+                                classes: "alert alert-info",
+                            },
+                            {
+                                title: "Danger Alert",
+                                block: "div",
+                                classes: "alert alert-danger",
+                            },
+                        ],
+                    },
+                    {
+                        title: "Custom Paragraphs",
+                        items: [
+                            {
+                                title: "Lead Paragraph",
+                                block: "p",
+                                classes: "lead",
+                            },
+                            {
+                                title: "Muted Text",
+                                block: "p",
+                                classes: "text-muted",
+                            },
+                            {
+                                title: "Center Text",
+                                block: "p",
+                                classes: "text-center",
+                            },
+                            {
+                                title: "Right Text",
+                                block: "p",
+                                classes: "text-end",
+                            },
+                        ],
+                    },
+                ],
+                content_style: `
+                body { font-family:Helvetica,Arial,sans-serif; font-size:14px }
+                .alert { padding: 10px; margin: 10px 0; border-radius: 4px; }
+                .alert-warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+                .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+                .alert-info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+                .alert-danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+                .lead { font-size: 1.25rem; font-weight: 300; }
+                .text-muted { color: #6c757d; }
+                .text-center { text-align: center; }
+                .text-end { text-align: right; }
+            `,
+            });
+        </script>
+    </body>
+</html>

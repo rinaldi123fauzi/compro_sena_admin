@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>TinyMCE API Test</title>
+        <script
+            src="https://cdn.tiny.cloud/1/la0ql2hq8yd8u8jx5l3mevofs09gvlzlo2yktz5w3dfrpzg6/tinymce/6/tinymce.min.js"
+            referrerpolicy="origin"
+        ></script>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            .field {
+                margin-bottom: 20px;
+            }
+            label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+            button {
+                background: #007cba;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            button:hover {
+                background: #005a87;
+            }
+            .status {
+                padding: 10px;
+                margin: 10px 0;
+                border-radius: 4px;
+            }
+            .success {
+                background: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            }
+            .error {
+                background: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>TinyMCE API Key Test</h1>
+            <p>
+                API Key:
+                <strong
+                    >la0ql2hq8yd8u8jx5l3mevofs09gvlzlo2yktz5w3dfrpzg6</strong
+                >
+            </p>
+
+            <div id="status" class="status success">
+                ✅ TinyMCE loaded successfully with API key!
+            </div>
+
+            <form id="testForm">
+                <div class="field">
+                    <label for="primary_text">Primary Text:</label>
+                    <textarea id="primary_text" name="primary_text">
+                    <h2>Welcome to TinyMCE</h2>
+                    <p>This is a <strong>rich text editor</strong> with <em>premium features</em>!</p>
+                    <ul>
+                        <li>Font family selection</li>
+                        <li>Font size options</li>
+                        <li>Background colors</li>
+                        <li>Templates</li>
+                        <li>Emoticons 😊</li>
+                    </ul>
+                </textarea
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description">
+                    <h3>Advanced Features</h3>
+                    <p>With a valid API key, you can access:</p>
+                    <table border="1" style="border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <th>Feature</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td>Premium Plugins</td>
+                            <td>Access to advanced formatting options</td>
+                        </tr>
+                        <tr>
+                            <td>Custom Templates</td>
+                            <td>Pre-built content templates</td>
+                        </tr>
+                        <tr>
+                            <td>Enhanced Media</td>
+                            <td>Better image and video embedding</td>
+                        </tr>
+                    </table>
+                </textarea
+                    >
+                </div>
+
+                <button type="button" onclick="getContent()">
+                    Get Content
+                </button>
+                <button type="button" onclick="setContent()">
+                    Set Sample Content
+                </button>
+            </form>
+
+            <div id="output" style="margin-top: 20px"></div>
+        </div>
+
+        <script>
+            // TinyMCE configuration with premium features
+            const config = {
+                height: 300,
+                menubar: "file edit view insert format tools table help",
+                plugins: [
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "help",
+                    "wordcount",
+                    "emoticons",
+                    "template",
+                    "codesample",
+                    "hr",
+                    "pagebreak",
+                    "nonbreaking",
+                    "toc",
+                    "imagetools",
+                    "textpattern",
+                ],
+                toolbar:
+                    "undo redo | blocks fontfamily fontsize | " +
+                    "bold italic underline strikethrough | forecolor backcolor | " +
+                    "alignleft aligncenter alignright alignjustify | " +
+                    "bullist numlist outdent indent | removeformat | " +
+                    "table link image media | emoticons template codesample | " +
+                    "hr pagebreak | toc | code fullscreen | help",
+                content_style:
+                    "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                font_family_formats:
+                    "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
+                font_size_formats:
+                    "8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 48pt",
+                image_advtab: true,
+                templates: [
+                    {
+                        title: "New Table",
+                        description: "creates a new table",
+                        content:
+                            '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>',
+                    },
+                    {
+                        title: "Starting my story",
+                        description: "A cure for writers block",
+                        content: "Once upon a time...",
+                    },
+                    {
+                        title: "New list with dates",
+                        description: "New List with dates",
+                        content:
+                            '<div class="mceTmpl"><span class="cdate">cdate</span><br><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>',
+                    },
+                ],
+                setup: function (editor) {
+                    editor.on("init", function () {
+                        console.log(
+                            "TinyMCE initialized successfully with API key!"
+                        );
+                        document.getElementById("status").innerHTML =
+                            "✅ TinyMCE loaded successfully with API key!";
+                    });
+
+                    editor.on("LoadError", function (e) {
+                        console.error("TinyMCE failed to load:", e);
+                        document.getElementById("status").innerHTML =
+                            "❌ TinyMCE failed to load. Check API key!";
+                        document.getElementById("status").className =
+                            "status error";
+                    });
+                },
+            };
+
+            // Initialize editors
+            tinymce.init({
+                selector: "#primary_text",
+                ...config,
+            });
+
+            tinymce.init({
+                selector: "#description",
+                ...config,
+            });
+
+            // Helper functions
+            function getContent() {
+                const primaryContent = tinymce.get("primary_text").getContent();
+                const descriptionContent = tinymce
+                    .get("description")
+                    .getContent();
+
+                document.getElementById("output").innerHTML = `
+                <h3>Current Content:</h3>
+                <h4>Primary Text:</h4>
+                <div style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">${primaryContent}</div>
+                <h4>Description:</h4>
+                <div style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">${descriptionContent}</div>
+            `;
+            }
+
+            function setContent() {
+                const sampleContent = `
+                <h2>Sample Content</h2>
+                <p>This is <strong>sample content</strong> with <em>formatting</em>!</p>
+                <p style="color: #ff0000;">Red text</p>
+                <p style="background-color: #ffff00;">Yellow background</p>
+                <ul>
+                    <li>List item 1</li>
+                    <li>List item 2</li>
+                    <li>List item 3</li>
+                </ul>
+            `;
+
+                tinymce.get("primary_text").setContent(sampleContent);
+                tinymce.get("description").setContent(sampleContent);
+            }
+        </script>
+    </body>
+</html>

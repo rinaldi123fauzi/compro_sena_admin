@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>TinyMCE Final Configuration Test</title>
+        <script
+            src="https://cdn.tiny.cloud/1/{{ env('TINYMCE_API_KEY') }}/tinymce/6/tinymce.min.js"
+            referrerpolicy="origin"
+        ></script>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                line-height: 1.6;
+            }
+            .container {
+                max-width: 1000px;
+                margin: 0 auto;
+            }
+            .test-section {
+                background: #f9f9f9;
+                padding: 20px;
+                margin: 20px 0;
+                border-radius: 8px;
+                border: 1px solid #ddd;
+            }
+            .result {
+                background: #fff;
+                padding: 15px;
+                margin: 10px 0;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }
+            .html-display {
+                background: #f8f8f8;
+                border: 1px solid #ddd;
+                padding: 10px;
+                margin: 10px 0;
+                overflow-x: auto;
+                border-radius: 3px;
+            }
+            pre {
+                background: #f0f0f0;
+                padding: 10px;
+                border-radius: 3px;
+                font-size: 12px;
+                overflow-x: auto;
+            }
+            button {
+                background: #007cba;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                margin: 5px;
+                border-radius: 3px;
+                cursor: pointer;
+                font-size: 13px;
+            }
+            button:hover {
+                background: #005a87;
+            }
+            .btn-success {
+                background: #28a745;
+            }
+            .btn-warning {
+                background: #ffc107;
+                color: #212529;
+            }
+            .btn-danger {
+                background: #dc3545;
+            }
+            .editor-container {
+                margin: 20px 0;
+            }
+            .comparison {
+                display: flex;
+                gap: 20px;
+            }
+            .comparison > div {
+                flex: 1;
+            }
+            h3 {
+                color: #333;
+                margin-top: 0;
+            }
+            .highlight {
+                background: #fff3cd;
+                padding: 2px 4px;
+                border-radius: 2px;
+            }
+            .code {
+                background: #f8f9fa;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: monospace;
+                font-size: 13px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>TinyMCE Final Configuration Test</h1>
+            <p>
+                Test untuk memvalidasi konfigurasi TinyMCE dengan berbagai opsi
+                "Normal Text" dan pemrosesan konten.
+            </p>
+
+            <div class="test-section">
+                <h2>Test 1: Primary Text Editor</h2>
+                <div class="editor-container">
+                    <textarea id="primaryTextEditor" name="primary_text">
+                    Ini adalah contoh primary text untuk slider utama.
+                </textarea
+                    >
+                </div>
+                <div>
+                    <button
+                        onclick="showHTML('primaryTextEditor', 'primaryResult')"
+                    >
+                        Show HTML
+                    </button>
+                    <button
+                        onclick="showPlainText('primaryTextEditor', 'primaryResult')"
+                    >
+                        Show Plain Text
+                    </button>
+                    <button onclick="testNormalText('primaryTextEditor')">
+                        Set Normal Text
+                    </button>
+                    <button onclick="testParagraph('primaryTextEditor')">
+                        Set Paragraph
+                    </button>
+                    <button onclick="clearEditor('primaryTextEditor')">
+                        Clear
+                    </button>
+                </div>
+                <div id="primaryResult" class="result">
+                    <h3>Output akan muncul di sini</h3>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2>Test 2: Description Editor</h2>
+                <div class="editor-container">
+                    <textarea id="descriptionEditor" name="description">
+                    Ini adalah contoh description untuk slider dengan format yang lebih panjang dan detail.
+                </textarea
+                    >
+                </div>
+                <div>
+                    <button
+                        onclick="showHTML('descriptionEditor', 'descriptionResult')"
+                    >
+                        Show HTML
+                    </button>
+                    <button
+                        onclick="showPlainText('descriptionEditor', 'descriptionResult')"
+                    >
+                        Show Plain Text
+                    </button>
+                    <button onclick="testRichContent('descriptionEditor')">
+                        Set Rich Content
+                    </button>
+                    <button onclick="clearEditor('descriptionEditor')">
+                        Clear
+                    </button>
+                </div>
+                <div id="descriptionResult" class="result">
+                    <h3>Output akan muncul di sini</h3>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2>Test 3: Content Processing Simulation</h2>
+                <p>Simulasi bagaimana konten akan diproses oleh backend PHP.</p>
+                <div class="comparison">
+                    <div>
+                        <h3>Original HTML</h3>
+                        <div id="originalHTML" class="html-display">
+                            <em
+                                >Pilih editor dan klik "Show HTML" untuk melihat
+                                konten asli</em
+                            >
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Processed (Plain Text)</h3>
+                        <div id="processedHTML" class="html-display">
+                            <em>Hasil pemrosesan akan muncul di sini</em>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button onclick="processContent('primaryTextEditor')">
+                        Process Primary Text
+                    </button>
+                    <button onclick="processContent('descriptionEditor')">
+                        Process Description
+                    </button>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2>Test 4: Block Formats & Styling</h2>
+                <div class="editor-container">
+                    <textarea id="stylingEditor" name="styling">
+                    Test berbagai format dan styling yang tersedia.
+                </textarea
+                    >
+                </div>
+                <div>
+                    <button
+                        onclick="showHTML('stylingEditor', 'stylingResult')"
+                    >
+                        Show HTML
+                    </button>
+                    <button onclick="addSampleContent('stylingEditor')">
+                        Add Sample Content
+                    </button>
+                    <button onclick="clearEditor('stylingEditor')">
+                        Clear
+                    </button>
+                </div>
+                <div id="stylingResult" class="result">
+                    <h3>Styling test results</h3>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2>Instructions</h2>
+                <ol>
+                    <li>
+                        Test <span class="highlight">Normal Text</span> format -
+                        harusnya menggunakan
+                        <span class="code">&lt;div&gt;</span> tanpa class
+                    </li>
+                    <li>
+                        Test <span class="highlight">Paragraph</span> format -
+                        harusnya menggunakan <span class="code">&lt;p&gt;</span>
+                    </li>
+                    <li>Test berbagai block formats yang tersedia</li>
+                    <li>
+                        Test content processing untuk melihat bagaimana wrapper
+                        tags dihilangkan
+                    </li>
+                    <li>Pastikan semua style formats bekerja dengan baik</li>
+                </ol>
+            </div>
+        </div>
+
+        <script>
+            // Initialize TinyMCE with the same configuration as in the application
+            const tinymceConfig = {
+                height: 200,
+                menubar: false,
+                plugins:
+                    "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount",
+                toolbar:
+                    "undo redo | blocks styleselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | table link image media | code",
+
+                // Configuration for plain text without paragraph wrapping
+                forced_root_block: "div",
+                forced_root_block_attrs: {},
+                block_formats:
+                    "Normal Text=div; Paragraph=p; Main Title=h1; Section Title=h2; Sub Title=h3; Small Heading=h4; Smallest Heading=h5; Preformatted Text=pre; Quote Block=blockquote; Code Block=code; Address=address",
+
+                // Allow empty paragraphs and line breaks
+                allow_empty_paragraphs: true,
+                br_in_pre: true,
+
+                // Custom formatting options
+                formats: {
+                    normaltext: {
+                        block: "div",
+                        remove: "all",
+                    },
+                    paragraph: {
+                        block: "p",
+                    },
+                },
+
+                style_formats: [
+                    {
+                        title: "Text Styles",
+                        items: [
+                            {
+                                title: "Highlight",
+                                inline: "mark",
+                            },
+                            {
+                                title: "Small Text",
+                                inline: "small",
+                            },
+                            {
+                                title: "Deleted Text",
+                                inline: "del",
+                            },
+                            {
+                                title: "Inserted Text",
+                                inline: "ins",
+                            },
+                        ],
+                    },
+                    {
+                        title: "Alert Boxes",
+                        items: [
+                            {
+                                title: "Warning Box",
+                                block: "div",
+                                classes: "alert alert-warning",
+                            },
+                            {
+                                title: "Success Box",
+                                block: "div",
+                                classes: "alert alert-success",
+                            },
+                            {
+                                title: "Info Box",
+                                block: "div",
+                                classes: "alert alert-info",
+                            },
+                            {
+                                title: "Danger Box",
+                                block: "div",
+                                classes: "alert alert-danger",
+                            },
+                        ],
+                    },
+                ],
+
+                content_style: `
+                body { font-family:Helvetica,Arial,sans-serif; font-size:14px }
+                .alert { padding: 10px; margin: 10px 0; border-radius: 4px; }
+                .alert-warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+                .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+                .alert-info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+                .alert-danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+                .lead { font-size: 1.25rem; font-weight: 300; }
+                .text-muted { color: #6c757d; }
+                .text-center { text-align: center; }
+                .text-end { text-align: right; }
+            `,
+
+                setup: function (editor) {
+                    editor.on("change", function () {
+                        console.log("Content changed in:", editor.id);
+                    });
+                },
+            };
+
+            // Initialize all editors
+            ["primaryTextEditor", "descriptionEditor", "stylingEditor"].forEach(
+                (id) => {
+                    tinymce.init({
+                        selector: "#" + id,
+                        ...tinymceConfig,
+                    });
+                }
+            );
+
+            // Utility functions
+            function showHTML(editorId, resultId) {
+                const content = tinymce.get(editorId).getContent();
+                document.getElementById(resultId).innerHTML = `
+                <h3>HTML Output:</h3>
+                <div class="html-display"><pre>${escapeHtml(
+                    content
+                )}</pre></div>
+            `;
+
+                // Update comparison section
+                document.getElementById(
+                    "originalHTML"
+                ).innerHTML = `<pre>${escapeHtml(content)}</pre>`;
+            }
+
+            function showPlainText(editorId, resultId) {
+                const content = tinymce
+                    .get(editorId)
+                    .getContent({ format: "text" });
+                document.getElementById(resultId).innerHTML = `
+                <h3>Plain Text Output:</h3>
+                <div class="html-display"><pre>${escapeHtml(
+                    content
+                )}</pre></div>
+            `;
+            }
+
+            function testNormalText(editorId) {
+                const editor = tinymce.get(editorId);
+                editor.setContent(
+                    "<div>This is normal text without paragraph tags</div>"
+                );
+            }
+
+            function testParagraph(editorId) {
+                const editor = tinymce.get(editorId);
+                editor.setContent("<p>This is text with paragraph tags</p>");
+            }
+
+            function testRichContent(editorId) {
+                const editor = tinymce.get(editorId);
+                editor.setContent(`
+                <h2>Section Title</h2>
+                <p>This is a paragraph with <strong>bold</strong> and <em>italic</em> text.</p>
+                <div>This is normal text in a div.</div>
+                <ul>
+                    <li>List item 1</li>
+                    <li>List item 2</li>
+                </ul>
+            `);
+            }
+
+            function addSampleContent(editorId) {
+                const editor = tinymce.get(editorId);
+                editor.setContent(`
+                <h1>Main Title</h1>
+                <div>Normal text content</div>
+                <p>Paragraph content</p>
+                <div class="alert alert-warning">Warning alert box</div>
+                <div class="alert alert-success">Success alert box</div>
+                <blockquote>This is a quote block</blockquote>
+                <pre>This is preformatted text</pre>
+            `);
+            }
+
+            function clearEditor(editorId) {
+                tinymce.get(editorId).setContent("");
+            }
+
+            function processContent(editorId) {
+                const content = tinymce.get(editorId).getContent();
+                const processed = processPlainText(content);
+
+                document.getElementById(
+                    "originalHTML"
+                ).innerHTML = `<pre>${escapeHtml(content)}</pre>`;
+                document.getElementById(
+                    "processedHTML"
+                ).innerHTML = `<pre>${escapeHtml(processed)}</pre>`;
+            }
+
+            // Simulate PHP processing function
+            function processPlainText(content) {
+                if (!content) return content;
+
+                let processed = content;
+
+                // Remove simple div wrapper with no classes or attributes
+                processed = processed.replace(
+                    /<div[^>]*>([^<]+)<\/div>/g,
+                    "$1"
+                );
+
+                // Remove div with plain-text class
+                processed = processed.replace(
+                    /<div[^>]*class="plain-text"[^>]*>(.*?)<\/div>/gs,
+                    "$1"
+                );
+
+                // Remove empty divs
+                processed = processed.replace(/<div[^>]*><\/div>/g, "");
+
+                return processed.trim();
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement("div");
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        </script>
+    </body>
+</html>

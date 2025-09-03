@@ -1,0 +1,110 @@
+<x-template.layout>
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Edit Disiplin</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="{{ route('disiplin.index') }}">Disiplin</a></li>
+                                <li class="breadcrumb-item active">Edit</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        @if (session('success'))
+                            <div class="alert alert-success" role="alert">
+                                <strong> Sukses! </strong> {{ session('success') }}.
+                            </div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Error!</strong>
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <div class="card-body">
+                            <form class="row g-3" method="POST" action="{{ route('disiplin.update', $disiplin->id) }}"
+                                enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="col-md-12">
+                                    <label for="title" class="form-label">Title <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                        name="title" id="title" value="{{ old('title', $disiplin->title) }}">
+
+                                    @error('title')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="deskripsi" class="form-label">Deskripsi <span
+                                            class="text-danger">*</span></label>
+                                    <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" id="description"
+                                        rows="8">{{ old('deskripsi', $disiplin->deskripsi) }}</textarea>
+
+                                    @error('deskripsi')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="icon" class="form-label">Icon</label>
+                                    @if ($disiplin->icon)
+                                        <div class="mb-2">
+                                            <img src="{{ $disiplin->icon_url }}" alt="Current Icon"
+                                                class="img-thumbnail" style="max-width: 100px;">
+                                            <p class="text-muted mt-1">Icon saat ini: {{ $disiplin->icon }}</p>
+                                        </div>
+                                    @endif
+                                    <input type="file" class="form-control @error('icon') is-invalid @enderror"
+                                        name="icon" id="icon" accept="image/*">
+                                    <small class="text-muted">Format: JPEG, PNG, JPG, GIF, SVG. Maksimal 2MB. Kosongkan
+                                        jika tidak ingin mengubah icon.</small>
+
+                                    @error('icon')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-12">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="ri-save-line align-middle me-1"></i> Update
+                                    </button>
+                                    <a href="{{ route('disiplin.index') }}" class="btn btn-secondary">
+                                        <i class="ri-arrow-left-line align-middle me-1"></i> Kembali
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- container-fluid -->
+    </div>
+</x-template.layout>
