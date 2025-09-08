@@ -867,6 +867,12 @@
                                     Contact Us
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('header.annualreport') }}" class="nav-link" role="button"
+                                    aria-expanded="false" aria-controls="sidebarEmail" data-key="t-email">
+                                    Annual Report
+                                </a>
+                            </li>
 
 
 
