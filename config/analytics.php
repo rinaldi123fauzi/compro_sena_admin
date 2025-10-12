@@ -2,7 +2,7 @@
 
 return [
     // GA4 Property ID
-    'property_id' => env('ANALYTICS_PROPERTY_ID', ''),
+    'property_id' => 506713255,
 
     // Credentials: resolve first existing file among supported names.
     // Spatie package expects key name: service_account_credentials_json
