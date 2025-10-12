@@ -66,33 +66,21 @@
 <!-- TinyMCE (self-hosted) -->
 <script src="{{ URL::asset('') }}assets/libs/tinymce/tinymce.min.js"></script>
 
-
 <script>
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .catch(error => {
-            console.error(error);
-        });
-    ClassicEditor
-        .create(document.querySelector('#editor1'))
-        .catch(error => {
-            console.error(error);
-        });
-    ClassicEditor
-        .create(document.querySelector('#editor2'))
-        .catch(error => {
-            console.error(error);
-        });
-    ClassicEditor
-        .create(document.querySelector('#editor3'))
-        .catch(error => {
-            console.error(error);
-        });
-    ClassicEditor
-        .create(document.querySelector('#editor4'))
-        .catch(error => {
-            console.error(error);
-        });
+    // Only initialize CKEditor if specific ID elements exist on the page
+    ['editor', 'editor1', 'editor2', 'editor3', 'editor4'].forEach(function(editorId) {
+        var editorElement = document.querySelector('#' + editorId);
+        if (editorElement) {
+            ClassicEditor
+                .create(editorElement)
+                .then(function(editor) {
+                    editor.ui.view.editable.element.style.height = '200px';
+                })
+                .catch(error => {
+                    console.error('CKEditor error for #' + editorId + ':', error);
+                });
+        }
+    });
 </script>
 
 <!-- TinyMCE Initialization for Slider Form -->
