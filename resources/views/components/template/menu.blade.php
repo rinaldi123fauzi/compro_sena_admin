@@ -144,6 +144,18 @@
                     </a>
 
                 </li> <!-- end Dashboard Menu -->
+                {{-- <li class="nav-item">
+                    <a class="nav-link menu-link {{ request()->routeIs('analytics.overview') ? 'active' : '' }}"
+                        href="{{ route('analytics.overview') }}">
+                        <i class="ri-bar-chart-2-line"></i> <span>Google Analytics (GA4)</span>
+                    </a>
+                </li> --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ request()->routeIs('analytics.insights') ? 'active' : '' }}"
+                        href="{{ route('analytics.insights') }}">
+                        <i class="ri-pie-chart-line"></i> <span>GA Insights</span>
+                    </a>
+                </li>
 
                 {{-- <a class="nav-link menu-link collapsed active" href="#sidebarAdvanceUI" data-bs-toggle="collapse"
                     role="button" aria-expanded="true" aria-controls="sidebarAdvanceUI">
