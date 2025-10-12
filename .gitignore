@@ -19,3 +19,5 @@ yarn-error.log
 /vendor
 .DS_Store
 .env
+
+app/Providers/AppServiceProvider.php
