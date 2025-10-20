@@ -46,7 +46,7 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 overflow-hidden">
-                                            <p class="mb-1">Email :</p>
+                                            <p class="mb-1">Nama :</p>
                                             <h6 class="text-truncate mb-0">{{ $pertanyaan->name }}</h6>
                                         </div>
                                     </div>
