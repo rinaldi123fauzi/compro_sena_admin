@@ -172,7 +172,8 @@
                                 </div>
 
                                 <div class="col-md-12">
-                                    <label for="validationDefault01" class="form-label">Image</label>
+                                    <label for="validationDefault01" class="form-label">Image (Ukuran foto : 1920 x
+                                        1280)</label>
                                     <input type="file" class="form-control" name="image"
                                         value="{{ old('image') }}">
 
