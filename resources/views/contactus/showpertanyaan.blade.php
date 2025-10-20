@@ -17,69 +17,45 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <!-- Kolom 1: Pesan -->
+                <div class="col-lg-4">
                     <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0 text-white">Isi Pesan</h5>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title mb-3">{{ $pertanyaan->subject }}</h5>
-                            <p>{{ $pertanyaan->message }}</p>
-
-                            <div class="row">
-                                <div class="col-6 col-md-3">
-                                    <div class="d-flex mt-4">
-                                        <div class="flex-shrink-0 avatar-xs align-self-center me-3">
-                                            <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
-                                                <i class="ri-mail-line"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 overflow-hidden">
-                                            <p class="mb-1">Email :</p>
-                                            <h6 class="text-truncate mb-0">{{ $pertanyaan->email }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end col-->
-                                <div class="col-6 col-md-3">
-                                    <div class="d-flex mt-4">
-                                        <div class="flex-shrink-0 avatar-xs align-self-center me-3">
-                                            <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
-                                                <i class="ri-user-line"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 overflow-hidden">
-                                            <p class="mb-1">Nama :</p>
-                                            <h6 class="text-truncate mb-0">{{ $pertanyaan->name }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="d-flex mt-4">
-                                        <div class="flex-shrink-0 avatar-xs align-self-center me-3">
-                                            <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
-                                                <i class="ri-phone-line"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 overflow-hidden">
-                                            <p class="mb-1">Nomor Handphone :</p>
-                                            <h6 class="text-truncate mb-0">{{ $pertanyaan->phone }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="d-flex mt-4">
-                                        <div class="flex-shrink-0 avatar-xs align-self-center me-3">
-                                            <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
-                                                <i class="ri-building-line"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 overflow-hidden">
-                                            <p class="mb-1">Company :</p>
-                                            <h6 class="text-truncate mb-0">{{ $pertanyaan->company }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end col-->
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-medium" style="width: 200px;">Subject</td>
+                                            <td>{{ $pertanyaan->subject }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-medium">Nama</td>
+                                            <td>{{ $pertanyaan->name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-medium">Email</td>
+                                            <td>{{ $pertanyaan->email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-medium">Nomor Handphone</td>
+                                            <td>{{ $pertanyaan->phone }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-medium">Perusahaan</td>
+                                            <td>{{ $pertanyaan->company ?? '-' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-medium" style="vertical-align: top;">Pesan</td>
+                                            <td>
+                                                <div>{!! nl2br(e($pertanyaan->message)) !!}</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <!--end row-->
                         </div>
                         <!--end card-body-->
                     </div>
@@ -104,17 +80,20 @@
                             <!--end card-body-->
                         </div>
                     @endif
+                </div>
 
-
-
+                <!-- Kolom 2: Form Balas -->
+                <div class="col-lg-8">
                     <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0 text-white">Balas Pesan</h5>
+                        </div>
                         @if (session('message'))
-                            <div class="alert alert-success" role="alert" style="margin-bottom: 20px;">
+                            <div class="alert alert-success" role="alert" style="margin: 20px 20px 0;">
                                 <strong> Sukses! </strong> {{ session('message') }}.
                             </div>
                         @endif
                         <div class="card-body">
-                            <h5 class="card-title">Balas</h5>
                             <form method="POST" id="replyForm"
                                 action="{{ url('') }}/contact-us/updatepertanyaan/{{ $pertanyaan->id }}"
                                 enctype="multipart/form-data">
@@ -169,7 +148,6 @@
                         </div>
                         <!-- end card body -->
                     </div><!-- end card -->
-
                 </div>
             </div>
 
