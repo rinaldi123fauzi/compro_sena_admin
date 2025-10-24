@@ -7,6 +7,7 @@ use App\Models\Pertanyaan;
 use App\Models\Title;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ContactusController extends Controller
 {
@@ -82,7 +83,7 @@ class ContactusController extends Controller
     function listpertanyaan()
     {
         $title = 'List Pertanyaan';
-        $listpertanyaan  = Pertanyaan::all();
+        $listpertanyaan  = Pertanyaan::orderBy('created_at', 'desc')->get();
         return view('contactus.index', compact('title', 'listpertanyaan'));
     }
 
@@ -125,6 +126,21 @@ class ContactusController extends Controller
         $pertanyaan->reply_message = $request->reply_message;
         $pertanyaan->reply_attachment = $filename;
         $pertanyaan->save();
+
+        // Kirim email balasan
+        try {
+            Mail::html($request->reply_message, function ($message) use ($pertanyaan, $request, $filename) {
+                $message->to($pertanyaan->email)
+                    ->subject($request->reply_subject);
+
+                // Attach file jika ada
+                if ($filename) {
+                    $message->attach(public_path('upload/file/' . $filename));
+                }
+            });
+        } catch (\Exception $e) {
+            return redirect('contact-us/showpertanyaan/' . $id)->with('error', 'Pesan berhasil disimpan tetapi gagal mengirim email: ' . $e->getMessage());
+        }
 
         return redirect('contact-us/showpertanyaan/' . $id)->with('message', 'pesan Berhasil Dibalas');
     }

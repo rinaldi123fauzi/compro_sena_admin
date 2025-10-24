@@ -13,7 +13,15 @@ use App\Http\Controllers\Admin\VendorController;
     return view('welcome');
 }); */
 
-Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->middleware('auth');
+//Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->middleware('auth');
+Route::get('/dashboard', [App\Http\Controllers\AnalyticsController::class, 'overview'])
+    ->middleware('auth')
+    ->name('analytics.overview');
+
+Route::get('/admin/analytics/realtime', [App\Http\Controllers\AnalyticsController::class, 'realtime'])
+    ->middleware('auth')
+    ->name('analytics.realtime');
+
 
 /* #Login */
 Route::get('/', [App\Http\Controllers\LoginController::class, 'index'])->name('index')->middleware('guest');
@@ -437,3 +445,13 @@ Route::prefix('experience')->middleware('auth')->group(function () {
 Route::prefix('log')->middleware('auth')->group(function () {
     Route::get('/', [App\Http\Controllers\LogController::class, 'index'])->name('log.index');
 });
+
+// Analytics (GA4) overview
+Route::get('/admin/analytics', [App\Http\Controllers\AnalyticsController::class, 'overview'])
+    ->middleware('auth')
+    ->name('analytics.overview');
+
+// Analytics realtime active users (AJAX JSON)
+Route::get('/admin/analytics/insights', [App\Http\Controllers\AnalyticsController::class, 'insights'])
+    ->middleware('auth')
+    ->name('analytics.insights');

@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pertanyaan;
+use App\Mail\PertanyaanNotification;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class PertanyaanController extends Controller
 {
@@ -45,6 +48,17 @@ class PertanyaanController extends Controller
         'jenis' => 'bisnis'
         // Remove status field to use default value
       ]);
+
+      // Send email notification
+      try {
+        Mail::to('firmansyahdonna@gmail.com')->send(new PertanyaanNotification($pertanyaan));
+      } catch (\Exception $mailException) {
+        // Log the error but don't fail the request
+        Log::error('Failed to send email notification for business question', [
+          'pertanyaan_id' => $pertanyaan->id,
+          'error' => $mailException->getMessage()
+        ]);
+      }
 
       return response()->json([
         'success' => true,
@@ -95,6 +109,17 @@ class PertanyaanController extends Controller
         'jenis' => 'umum'
         // Remove status field to use default value
       ]);
+
+      // Send email notification
+      try {
+        Mail::to('firmansyahdonna@gmail.com')->send(new PertanyaanNotification($pertanyaan));
+      } catch (\Exception $mailException) {
+        // Log the error but don't fail the request
+        Log::error('Failed to send email notification for general question', [
+          'pertanyaan_id' => $pertanyaan->id,
+          'error' => $mailException->getMessage()
+        ]);
+      }
 
       return response()->json([
         'success' => true,
