@@ -38,6 +38,7 @@
                                         <th data-ordering="false">Email</th>
                                         <th data-ordering="false">Nomor Handphone</th>
                                         <th data-ordering="false">status</th>
+                                        <th>Tanggal</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -61,6 +62,8 @@
                                                     <span
                                                         class="badge text-bg-success">{{ Str::title($val->status) }}</span>
                                                 @endif
+                                            </td>
+                                            <td>{{ $val->created_at ? $val->created_at->format('d-m-Y') : '-' }}
                                             </td>
 
                                             <td>
@@ -120,5 +123,18 @@
                 }
             });
         }
+
+        // Sort table by Tanggal column (index 6) in descending order
+        document.addEventListener('DOMContentLoaded', function() {
+            let table = $('#example').DataTable({
+                "order": [
+                    [6, "desc"]
+                ],
+                "columnDefs": [{
+                    "targets": 6,
+                    "type": "date"
+                }]
+            });
+        });
     </script>
 </x-template.layout>
