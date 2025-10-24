@@ -1,0 +1,2 @@
+final="sshpass -p 'daanmogot123@' rsync -a --info=progress2 /home/triv-gemilang2/sena/backups/compro_admin/2025-10-04-10-45-01-compro-admin/compro_sena_admin1 webcompro-sena@192.168.1.23:/home/webcompro-sena/compro_admin"
+eval $final

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class TrustProxies extends Middleware
 {
-    protected $proxies = '10.242.11.117'; // atau IP proxy kamu
+    protected $proxies = '192.168.1.31'; // atau IP proxy kamu
 
     protected $headers =
         \Illuminate\Http\Request::HEADER_X_FORWARDED_FOR |
